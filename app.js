@@ -4,6 +4,9 @@ let CASE_DATA = ''; //global variable to store the data to be worked with
 //the select drop down
 const selector = document.getElementById('selectorDropDown');
 
+//make chart variable global to allow the update method
+let covid_chart;
+
 let state_list = [
   'AL',
   'AK',
@@ -94,39 +97,98 @@ button.addEventListener('click', () => {
       //convert the json to an array to run filter over it and return all indices of that matching state
       let countiesInState = Array.from(data).filter((state) => {
         if (state.state_name === stateSelected) {
-          return state;
+          return state; //an object of all the data of the state
         }
       });
-
-      console.log(countiesInState);
-      let ctx = document.getElementById('myChart').getContext('2d'); //grab the canvas and place it in to a new chart
-      let covid_chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          //TODO: ADD LABELS
-          labels: '',
-          datasets: [
-            {
-              label: '# of Deaths',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-              borderColor: ['rgba(255, 99, 132, 1)'],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            yAxes: [
+      //if a curreent rendered chart exists, reset it then update it with the new data
+      if (covid_chart) {
+        covid_chart.destroy();
+        let ctx = document.getElementById('myChart').getContext('2d'); //grab the canvas and place it in to a new chart
+        covid_chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            //map the counties returning an array of county names to render [map returns a defined array off desired code]
+            labels: countiesInState.map((county) => {
+              return county.county_name;
+            }),
+            datasets: [
               {
-                ticks: {
-                  beginAtZero: true,
-                },
+                label: '# of Deaths',
+                //get the corresponding data from the label on deaths
+                data: countiesInState.map((county) => {
+                  return county.covid_death;
+                }),
+                //generate random background colors for each bar using this syntax: ['rgba(255, 99, 132, 0.2)']
+                backgroundColor: countiesInState.map((val) => {
+                  var x = Math.floor(Math.random() * 256);
+                  var y = Math.floor(Math.random() * 256);
+                  var z = Math.floor(Math.random() * 256);
+                  var bgColor =
+                    'rgba(' + x + ',' + y + ',' + z + ',' + 0.4 + ')';
+                  return bgColor;
+                }),
+                borderColor: 'black',
+                borderWidth: 1,
               },
             ],
           },
-        },
-      });
+          options: {
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+          },
+        });
+        covid_chart.update();
+      } else {
+        //this will be the initial chart made for the first entry, then all subsequent entries will be handled in that if
+        let ctx = document.getElementById('myChart').getContext('2d'); //grab the canvas and place it in to a new chart
+        covid_chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            //map the counties returning an array of county names to render [map returns a defined array off desired code]
+            labels: countiesInState.map((county) => {
+              return county.county_name;
+            }),
+            datasets: [
+              {
+                label: '# of Deaths',
+                //get the corresponding data from the label on deaths
+                data: countiesInState.map((county) => {
+                  return county.covid_death;
+                }),
+                //generate random background colors for each bar using this syntax: ['rgba(255, 99, 132, 0.2)']
+                backgroundColor: countiesInState.map((val) => {
+                  var x = Math.floor(Math.random() * 256);
+                  var y = Math.floor(Math.random() * 256);
+                  var z = Math.floor(Math.random() * 256);
+                  var bgColor =
+                    'rgba(' + x + ',' + y + ',' + z + ',' + 0.4 + ')';
+                  return bgColor;
+                }),
+                borderColor: 'black',
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+          },
+        });
+      }
     })
     .catch(function (err) {
       console.log(err);
