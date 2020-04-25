@@ -133,6 +133,8 @@ button.addEventListener('click', () => {
             ],
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
               yAxes: [
                 {
@@ -177,6 +179,8 @@ button.addEventListener('click', () => {
             ],
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
               yAxes: [
                 {
