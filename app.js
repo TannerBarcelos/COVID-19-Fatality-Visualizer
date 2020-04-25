@@ -100,6 +100,11 @@ button.addEventListener('click', () => {
           return state; //an object of all the data of the state
         }
       });
+
+      if (countiesInState.length < 1) {
+        alert('No data to show for this state');
+      }
+
       //if a curreent rendered chart exists, reset it then update it with the new data
       if (covid_chart) {
         covid_chart.destroy();
