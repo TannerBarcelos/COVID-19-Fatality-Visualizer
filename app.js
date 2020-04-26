@@ -95,7 +95,7 @@ button.addEventListener('click', () => {
       //make to correct dates and then slice only into a nice string
       let start_date = new Date(data[0].start_week).toString().slice(0, 15);
       let end_date = new Date(data[0].end_week).toString().slice(0, 15);
-      spanDateAsOf.textContent = `Start Date: ${start_date} End Date: ${end_date}`; //<-- textContent is cross browser supported [innerText is frowned upon]
+      spanDateAsOf.textContent = `Start Date: ${start_date}      End Date: ${end_date}`; //<-- textContent is cross browser supported [innerText is frowned upon]
 
       //get the users selected state from the selector
       const selectedState = document.getElementById('selectorDropDown');
@@ -210,6 +210,7 @@ button.addEventListener('click', () => {
     .catch(function (err) {
       console.log(err);
     });
+  //alert('hi'); <promise notes: this would come before any other function calls/execution because of the fetch() api protocol. This is a function that returns a promise and as we know, a promise is a concurrently running function that runs while other code runs. It will do what it needs to do whilke the program continues to do other stuff. It is non blocking so, this alert would actually run while the fetch() runs hwoever until the alert is closed, the fethc() will chill in the event queue and hold out until the alert is closed. Ingeneral sense, promises and async code will run while the whole program runs. So until the data is returned from an ajax call like we did, any other console logs, functions, etc. would run BEFORE the fetch block. So, even thoguh the alert was below the whole logic of this application, it woul actually run first! Super cool. Async JS is very powerful and important
 });
 
 /**
