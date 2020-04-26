@@ -88,7 +88,18 @@ button.addEventListener('click', () => {
     })
     //data here is the returned promise json data above
     .then(function createChart(data) {
-      //console.log(data);
+      //console.log(data); //<--- debug step
+
+      //get the span to add the date dynamically
+      const spanDateAsOf = document.getElementById('weekOf');
+      let start_date = new Date(data[0].start_week);
+      let end_date = new Date(data[0].start_week);
+      const textNode = document.createTextNode(
+        `Start Week: ${start_date}   End Week: ${end_date}`
+      );
+      //append this text node to the span as text for it
+      spanDateAsOf.appendChild(textNode);
+
       //get the users selected state from the selector
       const selectedState = document.getElementById('selectorDropDown');
       const stateSelected =
