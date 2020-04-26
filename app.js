@@ -86,7 +86,7 @@ button.addEventListener('click', () => {
       CASE_DATA = response.json(); //this actually returns a promise so we must chain another then()
       return CASE_DATA;
     })
-    //data here is the returned promise json data above
+    //data here is automatically assumed from the response.json() as that returns a promise that we can work with
     .then(function createChart(data) {
       //console.log(data); //<--- debug step
 
