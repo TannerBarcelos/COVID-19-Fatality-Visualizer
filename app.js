@@ -90,15 +90,12 @@ button.addEventListener('click', () => {
     .then(function createChart(data) {
       //console.log(data); //<--- debug step
 
-      //get the span to add the date dynamically
+      //get the paragraph in the html to add the date dynamically
       const spanDateAsOf = document.getElementById('weekOf');
-      let start_date = new Date(data[0].start_week);
-      let end_date = new Date(data[0].start_week);
-      const textNode = document.createTextNode(
-        `Start Week: ${start_date}   End Week: ${end_date}`
-      );
-      //append this text node to the span as text for it
-      spanDateAsOf.appendChild(textNode);
+      //make to correct dates and then slice only into a nice string
+      let start_date = new Date(data[0].start_week).toString().slice(0, 15);
+      let end_date = new Date(data[0].end_week).toString().slice(0, 15);
+      spanDateAsOf.textContent = `Start Date: ${start_date} End Date: ${end_date}`; //<-- textContent is cross browser supported [innerText is frowned upon]
 
       //get the users selected state from the selector
       const selectedState = document.getElementById('selectorDropDown');
